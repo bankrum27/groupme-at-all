@@ -23,7 +23,6 @@ class AllBot {
 
     // Load the blacklist as soon as we can
     this.robot.brain.once("loaded", this.loadBlacklist.bind(this));
-    this.robot.brain.once("loaded", this.loadModlist.bind(this));
   }
 
   saveBlacklist() {
