@@ -5,12 +5,6 @@ const room_id = process.env.HUBOT_GROUPME_ROOM_ID;
 const bot_id = process.env.HUBOT_GROUPME_BOT_ID;
 const token = process.env.HUBOT_GROUPME_TOKEN;
 
-var redis = require('redis');
-var client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
-
-client.set('foo', 'bar');
-client.get('foo', function (err, reply) {
-    console.log(reply.toString()); // Will print `bar`
 });
 
 if (!room_id || !bot_id || !token) {
