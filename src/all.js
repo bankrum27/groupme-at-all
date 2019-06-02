@@ -46,7 +46,7 @@ class AllBot {
   }
   
   loadModList() {
-    this.blacklist = this.robot.brain.get("modlist");
+    this.modlist = this.robot.brain.get("modlist");
     if (this.blacklist) console.log("modlist loaded successfully.");
     else console.warn("Failed to load modlist.");
   }
