@@ -20,7 +20,6 @@ class AllBot {
   constructor(robot) {
     this.robot = robot;
     this.blacklist = [];
-    this.rankMod = [];
 
     // Load the blacklist as soon as we can
     this.robot.brain.once("loaded", this.loadBlacklist.bind(this));
@@ -38,27 +37,10 @@ class AllBot {
     if (this.blacklist) console.log("Blacklist loaded successfully.");
     else console.warn("Failed to load blacklist.");
   }
-  
-   saveModList() {
-    console.log("Saving ModList");
-    this.robot.brain.set("modlist", this.rankMod);
-    this.robot.brain.save();
-  }
-  
-  loadModList() {
-    this.modlist = this.robot.brain.get("modlist");
-    if (this.blacklist) console.log("modlist loaded successfully.");
-    else console.warn("Failed to load modlist.");
-  }
 
   addToBlacklist(item) {
     this.blacklist.push(item);
     this.saveBlacklist();
-  }
-  
-  addToModList(item) {
-    this.rankMod.push(item);
-    this.saveModlist();
   }
 
   removeFromBlacklist(item) {
@@ -126,18 +108,6 @@ class AllBot {
     if (blacklistNames.length > 0) return res.send(blacklistNames.join(", "));
     else return res.send("There are currently no users blacklisted.");
   }
-  
-  respondToViewModlist(res) {
-    // Raw blacklist
-    if (res.match[1]) return res.send(JSON.stringify(this.modlist));
-
-    const modlistNames = this.modlist.map(
-      user => this.getUserById(user).name
-    );
-
-    if (modlistNames.length > 0) return res.send(modlistNames.join(", "));
-    else return res.send("There are currently no users moded.");
-  }
 
   respondToBlacklist(res, target) {
     const user = this.getUserByName(target);
@@ -157,16 +127,6 @@ class AllBot {
     console.log(`Whitelisting ${target}, ${user.user_id}`);
     this.removeFromBlacklist(user.user_id);
     res.send(`Whitelisted ${target} successfully`);
-  }
-  
-  respondToMod(res, target) {
-    const user = this.getUserByName(target);
-
-    if (!user) return res.send(`Could not find a user with the name ${target}`);
-
-    console.log(`Moding ${target}, ${user.user_id}`);
-    this.addToModlist(user.user_id);
-    res.send(`Mod ${target} successfully.`);
   }
 
   respondToAtAll(res) {
@@ -238,13 +198,6 @@ class AllBot {
     this.robot.hear(/whitelist (.+)/i, res =>
       this.respondToWhitelist(res, res.match[1])
     );
-    this.robot.hear(/mod (.+)/i, res =>
-      this.respondToMod(res, res.match[1])
-    );
-    this.robot.hear(/view( raw)* modlist/i, res =>
-      this.respondToViewModlist(res)
-    );
-
 
     // Mention @all command
     this.robot.hear(/(.*)@all(.*)/i, res => this.respondToAtAll(res));
