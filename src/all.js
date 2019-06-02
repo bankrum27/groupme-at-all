@@ -185,8 +185,6 @@ class AllBot {
 
   // Defines the main logic of the bot
   run() {
-    var redis = require('redis');
-    var client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
     // Register listeners with hubot
     this.robot.hear(/get id (.+)/i, res => this.respondToID(res, res.match[1]));
     this.robot.hear(/get name (.+)/i, res =>
