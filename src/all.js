@@ -4,7 +4,7 @@ const https = require("https");
 const room_id = process.env.HUBOT_GROUPME_ROOM_ID;
 const bot_id = process.env.HUBOT_GROUPME_BOT_ID;
 const token = process.env.HUBOT_GROUPME_TOKEN;
-
+const admin = process.env.ADMIN;
 });
 
 if (!room_id || !bot_id || !token) {
@@ -207,5 +207,5 @@ class AllBot {
 
 module.exports = robot => {
   const bot = new AllBot(robot);
-  bot.run();
+     bot.run();
 };
