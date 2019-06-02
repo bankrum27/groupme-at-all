@@ -5,6 +5,8 @@ const room_id = process.env.HUBOT_GROUPME_ROOM_ID;
 const bot_id = process.env.HUBOT_GROUPME_BOT_ID;
 const token = process.env.HUBOT_GROUPME_TOKEN;
 var client = require('redis').createClient(process.env.REDIS_URL);
+var Redis = require('ioredis');
+var redis = new Redis(process.env.REDIS_URL);
 
 if (!room_id || !bot_id || !token) {
   console.error(
